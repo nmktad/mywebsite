@@ -67,18 +67,18 @@ const Layout = ({ children, ...otherMeta }: { children: React.ReactNode }) => {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#01bf71" />
       </Head>
-      <div className="max-w-2xl mx-auto min-h-screen">
-        <nav className="flex justify-between items-center w-full border-neutral-200 dark:border-neutral-700 py-8 text-neutral-900 dark:text-neutral-100 bg-opacity-60">
+      <div className="max-w-2xl mx-auto min-h-screen px-4 md:px-0">
+        <nav className="flex justify-between items-center w-full font-sora border-neutral-200 dark:border-neutral-700 pt-8 pb-10 text-neutral-900 dark:text-neutral-100 bg-opacity-60">
           <div className="flex items-center">
-            {/* <MobileMenu /> */}
             <NavItem href="/" text="home" />
             <NavItem href="/projects" text="projects" />
             <NavItem href="/blog" text="blog" />
           </div>
+          {/* <MobileMenu /> */}
           <ToggleTheme />
         </nav>
         <section>{children}</section>
-        <footer className="py-24 flex  justify-center items-center font-sora text-neutral-600 dark:text-neutral-400 mx-auto w-full mb-8">
+        <footer className="py-24 flex justify-center items-center font-sora text-neutral-600 dark:text-neutral-400 mx-auto w-full mb-8">
           <div className="flex flex-col justify-between gap-4 font-medium lg:flex-row">
             <div className="flex space-x-5">
               <Link href="/blog">
@@ -110,7 +110,7 @@ const NavItem = ({ href, text }: { href: string; text: string }) => {
           isActive
             ? "font-semibold text-neutral-800 dark:text-neutral-200"
             : "font-normal text-neutral-600 dark:text-neutral-400",
-          "hidden md:inline-block p-1 sm:px-3 sm:py-2 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all"
+          "text-base hidden md:inline-block p-1 sm:px-3 sm:py-2 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all"
         )}
       >
         <span className="capsize">{text}</span>
