@@ -1,0 +1,120 @@
+---
+title: "Managing State with React Query"
+excerpt: "We look at what makes React Query, one popular method to deal with state in web apps, so great. Especially to deal with server state and state sync."
+date: "2022-09-13"
+---
+
+Managing the state of web apps as they get more complex is one of the difficult tasks we face today. Dealing with state management, particularly server states, is frustrating. We'll look at what makes [React Query](https://tanstack.com/query), one popular method to deal with this, so great.
+
+## What is the problem that it solves?
+
+Frameworks such as React provide excellent state management mechanisms. Using tools like react hooks simplifies processing client state. Management is straightforward since we have total control over this state. Working with server state, on the other hand, is a very different story. Here's why it's difficult:
+
+- It is persisted remotely.
+- Server data is asynchronous. It can easily be outdated.
+- Tracking changes can be hard since it's shared(other people can change it).
+- Caching, updating, deduping, memoizing, performance optimization, and other challenges come as you move along, until it becomes a headache.
+
+> React Query allows you to solve all of the tough issues and difficulties of server state while having it operate really effectively out-of-the-box with minimal configuration. It can be adjusted to your preferences as your application evolves.
+
+## What can React Query provide?
+
+Tanstack's React Query is a powerful asynchronous state management for TS/JS, React, Solid, Vue, and Svelte. You can get rid of complex state management, manual refetching, and endless async-spaghetti code using this package. React-query provides declarative, always-up-to-date auto-managed queries and mutations that improve both developer and user experiences.
+
+React query has various fantastic features, including
+
+- Async State Management.
+- A powerful cache layer
+- Optimistic Updates
+- Pre-fetching
+- server and client state synchronization.
+
+## React Query in depth
+
+### Queries
+
+When using React Query to make queries, there is no need to create a context or a state manager to distribute that data throughout all of the different places that want the data. We get a cache layer that is shared between all of the instances, and only one of them needs to actually run the function. All of them share a loading state, an error state, and all of them share the data when that data comes through.
+
+```javascript
+import { useQuery } from "react-query";
+
+function App() {
+  const { isLoading, error, data } = useQuery(["todos"], () =>
+    fetch("https://jsonplaceholder.typicode.com/todos").then((res) =>
+      res.json()
+    )
+  );
+}
+```
+
+### Mutations
+
+As for mutations, they are typically used to create, update, or delete data or perform server side-effects. It is a thing that occurs when a user does something. When a mutation occurs, react query provides loading and error states, the ability to define distinct conditions, callbacks for on success, on failure, and so on, as well as the option to invalidate a query or make an [Optimistic Update](https://tanstack.com/query/v4/docs/guides/optimistic-updates).
+
+```javascript
+function App() {
+  const { isLoading, isError, isSuccess, error, mutate } = useMutation(
+    (newTodo) => {
+      return axios.post("/todos", newTodo);
+    }
+  );
+
+  return (
+    <div>
+      {isLoading ? (
+        "Adding todo..."
+      ) : (
+        <>
+          {isError ? <div>An error occurred: {error.message}</div> : null}
+
+          {isSuccess ? <div>Todo added!</div> : null}
+
+          <button
+            onClick={() => {
+              mutate({ id: new Date(), title: "Do Laundry" });
+            }}
+          >
+            Create Todo
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+```
+
+### Optimistic updates and Invalidation
+
+When doing mutations, you can make the changes manually, like via JavaScript on the client. It's known as an `Optimistic Update`. There is a possibility that the mutation may fail if you optimistically update your state before performing it. Most of these failures may be avoided by simply doing a refetch for your optimistic queries to return them to their original server state. But, Sometimes refetching does not work properly, and the mutation error might indicate a server issue that prevents refetching. In this scenario, you may use the onMutate handler to revert your modification.
+
+When you are certain that a query's data is outdated as a result of something that the user has done, you can't always wait for queries to become stale before fetching them again. For that purpose, the `QueryClient` offers a function called `invalidateQueries` that lets you mark queries as stale and maybe refetch them too. In order for JavaScript to run the query again, you must `invalidate` the current one.
+
+```javascript
+useMutation(updateTodo, {
+  onMutate: async (newTodo) => {
+    // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+    await queryClient.cancelQueries(["todos", newTodo.id]);
+
+    // Snapshot the previous value
+    const previousTodo = queryClient.getQueryData(["todos", newTodo.id]);
+
+    // Optimistically update to the new value
+    queryClient.setQueryData(["todos", newTodo.id], newTodo);
+
+    // Return a context with the previous and new todo
+    return { previousTodo, newTodo };
+  },
+
+  // Always refetch after error or success:
+  onSettled: (newTodo, error, variables, context) => {
+    if (error) {
+      queryClient.setQueryData(
+        ["todos", context.newTodo.id],
+        context.previousTodo
+      );
+    }
+
+    queryClient.invalidateQueries(["todos", newTodo.id]);
+  },
+});
+```

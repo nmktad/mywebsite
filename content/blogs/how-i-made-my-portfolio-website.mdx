@@ -1,0 +1,64 @@
+---
+title: "How I built my Personal Website"
+excerpt: "A wide overview of my Portfolio website and how it was built, covering the tech stack, decisions I made along the way, issues I had, and how I overcame them."
+date: "2022-08-15"
+---
+
+Almost everyone in computer science or software engineering fields is kind of, expected to have a personal site. It's like an unspoken rule. Building my own website was therefore a no-brainer. But I didn't even consider having such a difficulty getting started. It took me longer than I had hoped to complete things like choosing the best tech stack, designing, and other somewhat insignificant looking aspects of building websites.
+
+I also wanted to take notes on what I had learned as part of my education. As a programmer, there was no better way to write notes than to make them overly complicated by using markdown instead of writing regular notes on Notion or another note-taking app. That led me to have the inspiration of create something like a _digital garden_ where I can share things I find fascinating and possibly learn something new along the way. So I've decided on sharing the process of building this personal website along with some resources i found helpful.
+
+## Tech Stack
+
+deciding on my tech stack I was looking for something to help me finish the website. Anything that had a steep learning curve wasn't something I wanted to get involved with. Furthermore, I wanted this site to be a place where I could experiment with new technologies, so I picked Next.js, Tailwind, and MDX and the language I chose was Typescript.
+
+### Next.js
+
+[Next.js](https://nextjs.org/) is a React.js framework that handles the setup and needs of modern website development.
+
+I liked using Next for a variety of reasons, including:
+
+- flexibility in meeting my current and future content and data needs.
+- helping with things that are normally tedious to set up like [Webpack](https://nextjs.org/docs/api-reference/next.config.js/custom-webpack-config), [Babel](https://nextjs.org/docs/advanced-features/customizing-babel-config), [TypeScript](https://nextjs.org/docs/basic-features/typescript) and [ESLint](https://nextjs.org/docs/basic-features/eslint).
+- comes with in-built performance benefits such as code-splitting, [image](https://nextjs.org/docs/basic-features/image-optimization) and [script](https://nextjs.org/docs/basic-features/script) optimizations, flexible options for [data fetching methods](https://nextjs.org/docs/basic-features/data-fetching), and [API Routes](https://nextjs.org/blog/next-9).
+- It offers a fantastic developer experience with little to no configuration, such as [fast refresh](https://nextjs.org/docs/basic-features/fast-refresh#how-it-works).
+
+The features listed above made it very easy for me to select Next.js as my Front-end framework.
+
+### MDX
+
+I went with [MDX](https://mdxjs.com/) because it allows me to include JSX components in markdown files. This would greatly make the process of creating highly interactive content easy, and this feature makes MDX an excellent blogging tool.
+
+### Tailwind
+
+[Tailwind](https://tailwindcss.com/) is a utility-first CSS framework that allows for components to be styled using predefined class names. My workflow was substantially sped up by Tailwind. It was a tremendous relief not to have to create my own class names for each component, such as `.component-wrapper` `.component-header` and `.component-body-image` and not to have any unnecessary CSS rules lying around.
+
+### TypeScript
+
+[Typescript](https://www.typescriptlang.org/) is a language built on top of JavaScript that allows you to check your code in the editor before running it. TypeScript has improved my speed and accuracy. I see more errors as I edit (rather than it failing in the browser when run), and I find I don't need to reference docs as often because I can know a lot about a function or component's requirements right in the editor.
+
+### Vercel
+
+Vercel is a deployment and collaboration platform for Front-end Devs.
+
+When I push a change to my main GitHub branch, Vercel's [GitHub Integration](https://vercel.com/docs/git/vercel-for-github) instantly deploys it to my website. This allowed me to concentrate on developing while Vercel handles continuous deployment and all of the complexity associated with maintaining a performant website.
+
+## Design
+
+Regardless of how much time and work I put into Designs. It's not my biggest forte. To be completely honest, I frequently stress out and struggle to turn the idea in my brain into something like Figma. As a result, I often end up basing my design on the designs of others and attempting to modify them in some ways.
+
+I love simple, minimal designs, thus that's how I intended this website to look. Moreover, it is the trendy thing to do, at least for the time being.
+
+In terms of design inspiration, I took a lot of it from [Lee Robinson](https://leerob.io/) and [Delba's](https://delba.dev/) websites. They provide good material to anyone interested in learning about web development. Visit their blogs and YouTube channels for great educational content on different technologies used in the field.
+
+Despite not delving far into design and borrowing certain ideas from others, the designs have garnered positive feedback from those who have seen them.
+
+## Content
+
+Initially, my focus for the website was to show recruiters the projects I'd worked on. Nonetheless, my perspective has evolved to a space that is valued and where ideas can be shared. a place where I intend to write passionately about exciting things and share them with people.
+
+## The Future
+
+There are many abstractions and topics on which I did not go into detail. So, if you'd want to obtain a better understanding of how I developed this website, I'd be happy to go over the technical aspects of the build.
+
+I'm constantly amazed by how my Ideas and decisions change over time and one of the inspirations for creating this website is to learn and experience new things while building. And I'd appreciate any feedback or suggestions for this website. Feel free to reach out to me on [Telegram](https://t.me/nmktad) or [Instagram](https://www.instagram.com/nmktad/)
