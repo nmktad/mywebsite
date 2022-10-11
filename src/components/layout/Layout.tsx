@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import cn from "classnames";
 import Head from "next/head";
+import useDelayedRender from "use-delayed-render";
+import styles from "../../styles/layout.module.css";
 
 const Layout = ({ children, ...otherMeta }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -67,14 +69,14 @@ const Layout = ({ children, ...otherMeta }: { children: React.ReactNode }) => {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#01bf71" />
       </Head>
-      <div className="max-w-2xl mx-auto min-h-screen px-4 md:px-0">
-        <nav className="flex justify-between items-center w-full font-sora border-neutral-200 dark:border-neutral-700 pt-8 pb-10 text-neutral-900 dark:text-neutral-100 bg-opacity-60">
-          <div className="flex items-center">
+      <div className="bg-neutral-50 dark:bg-neutral-900 max-w-2xl mx-auto min-h-screen px-4 md:px-0">
+        <nav className="z-20 flex justify-between items-center w-full font-sora border-neutral-200 dark:border-neutral-700 pt-8 pb-10 text-neutral-900 dark:text-neutral-100 bg-opacity-60">
+          <div className="flex flex-col md:flex-row items-center">
             <NavItem href="/" text="home" />
             <NavItem href="/projects" text="projects" />
             <NavItem href="/blog" text="blog" />
+            <MobileMenu />
           </div>
-          {/* <MobileMenu /> */}
           <ToggleTheme />
         </nav>
         <section>{children}</section>
@@ -163,3 +165,157 @@ const ToggleTheme = () => {
 };
 
 export default Layout;
+
+function MobileMenu() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { mounted: isMenuMounted, rendered: isMenuRendered } = useDelayedRender(
+    isMenuOpen,
+    {
+      enterDelay: 20,
+      exitDelay: 300,
+    }
+  );
+
+  function toggleMenu() {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+      document.body.style.overflow = "";
+    } else {
+      setIsMenuOpen(true);
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  useEffect(() => {
+    return function cleanup() {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  return (
+    <>
+      <button
+        className={cn(
+          styles.burger,
+          "transition-opacity border-0 bg-transparent w-9 h-9 relative",
+          "visible md:hidden"
+        )}
+        aria-label="Toggle menu"
+        type="button"
+        onClick={toggleMenu}
+      >
+        <MenuIcon data-hide={isMenuOpen} />
+        <CrossIcon data-hide={!isMenuOpen} />
+      </button>
+      {isMenuMounted && (
+        <ul
+          className={cn(
+            styles.menu,
+            "w-full h-screen opacity-0 mt-16 left-0 transition",
+            "z-50 flex flex-col absolute px-7 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100",
+            isMenuRendered && styles.menuRendered
+          )}
+        >
+          <li
+            className=" text-sm font-semibold"
+            style={{ transitionDelay: "150ms" }}
+          >
+            <Link href="/">
+              <a className="flex w-auto pb-4">Home</a>
+            </Link>
+          </li>
+
+          <li
+            className=" text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: "250ms" }}
+          >
+            <Link href="/project">
+              <a className="flex w-auto pb-4">Projects</a>
+            </Link>
+          </li>
+          <li
+            className=" text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: "250ms" }}
+          >
+            <Link href="/blog">
+              <a className="flex w-auto pb-4">Blog</a>
+            </Link>
+          </li>
+          <li
+            className=" text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: "275ms" }}
+          >
+            <Link href="/snippets">
+              <a className="flex w-auto pb-4">Snippets</a>
+            </Link>
+          </li>
+          <li
+            className=" text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: "300ms" }}
+          >
+            <Link href="/newsletter">
+              <a className="flex w-auto pb-4">Newsletter</a>
+            </Link>
+          </li>
+          <li
+            className=" text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: "325ms" }}
+          >
+            <Link href="/tweets">
+              <a className="flex w-auto pb-4">Tweets</a>
+            </Link>
+          </li>
+        </ul>
+      )}
+    </>
+  );
+}
+
+function MenuIcon(props: JSX.IntrinsicElements["svg"]) {
+  return (
+    <svg
+      className="h-5 w-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition text-neutral-900 dark:text-neutral-100"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      {...props}
+    >
+      <path
+        d="M2.5 7.5H17.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M2.5 12.5H17.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CrossIcon(props: JSX.IntrinsicElements["svg"]) {
+  return (
+    <svg
+      className="h-5 w-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition text-neutral-900 dark:text-neutral-100"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      {...props}
+    >
+      <path d="M18 6L6 18" />
+      <path d="M6 6l12 12" />
+    </svg>
+  );
+}
