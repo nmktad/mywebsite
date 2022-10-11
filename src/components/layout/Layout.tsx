@@ -69,7 +69,7 @@ const Layout = ({ children, ...otherMeta }: { children: React.ReactNode }) => {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#01bf71" />
       </Head>
-      <div className="bg-neutral-50 dark:bg-neutral-900 max-w-2xl mx-auto min-h-screen px-4 md:px-0">
+      <div className=" max-w-2xl mx-auto min-h-screen px-4 md:px-0">
         <nav className="z-20 flex justify-between items-center w-full font-sora border-neutral-200 dark:border-neutral-700 pt-8 pb-10 text-neutral-900 dark:text-neutral-100 bg-opacity-60">
           <div className="flex flex-col md:flex-row items-center">
             <NavItem href="/" text="home" />
