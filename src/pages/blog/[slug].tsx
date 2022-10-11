@@ -10,6 +10,15 @@ const SingleBlog = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const MDXContent = useMDXComponent(post.body.code);
 
+  useEffect(() => {
+    const registerView = () =>
+      fetch(`/api/views/${post.slug}`, {
+        method: "POST",
+      });
+    
+      process.env.NODE_ENV === "production" && registerView()
+  }, [post.slug]);
+
   const { data } = useSWR<{ total: number }>(
     `/api/views/${post.slug}`,
     async (url) => {
@@ -19,14 +28,6 @@ const SingleBlog = ({
   );
 
   const views = data?.total as number;
-
-  useEffect(() => {
-    const registerView = () =>
-      fetch(`/api/views/${post.slug}`, {
-        method: "POST",
-      });
-    if (process.env.NODE_ENV === "production") registerView();
-  }, [post.slug]);
 
   const meta = {
     title: `${post.title} - Nathnael Mekonnen`,
