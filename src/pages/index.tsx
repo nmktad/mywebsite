@@ -8,10 +8,10 @@ const Home = ({ profile }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <Layout>
-      <section className="flex md:gap-6 flex-col md:justify-between md:flex-row  font-sans text-neutral-600 dark:text-neutral-400">
+      <section className="flex md:gap-6 flex-col md:justify-between md:flex-row  font-sans text-neutral-600 dar:text-neutral-400">
         <div className="flex gap-2 md:gap-4 flex-col md:m-auto">
           <div>
-            <h1 className="text-4xl text-neutral-800 dark:text-neutral-200 font-bold mb-2">
+            <h1 className="text-4xl text-neutral-800 dark:text-neutral-200 font-bold md:font-extrabold mb-2">
               {name}
             </h1>
             <h2 className="mb-4 md:max-w-md">{bio}</h2>

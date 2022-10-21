@@ -57,7 +57,7 @@ const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
         )}
         <Suspense fallback={null}>
           <div className="mt-8 mb-6 flex justify-between">
-            <h3 className="text-2xl font-bold tracking-tight md:text-4xl">
+            <h3 className="text-2xl font-bold md:font-extrabold tracking-tight md:text-4xl">
               All Posts
             </h3>
           </div>
