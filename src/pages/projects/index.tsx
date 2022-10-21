@@ -15,7 +15,7 @@ const Projects = () => {
       <p className="mb-4 max-w-lg">
         List of projects I recently worked on and working on.
       </p>
-      <p classname=""> coming soon </p>
+      <p>coming soon</p>
     </Layout>
   );
 };
